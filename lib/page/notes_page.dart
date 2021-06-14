@@ -73,8 +73,31 @@ class _NotesPageState extends State<NotesPage> {
 
   Widget buildNotes1() => ListView.builder(
       padding: const EdgeInsets.all(16.0),
+    itemCount: notes.length,
+    //staggeredTileBuilder: (index) => StaggeredTile.fit(2),
       itemBuilder: (context, index) {
-        final note = notes[index+1];
+        final note = notes[index];
+
+        return Dismissible(
+          // Each Dismissible must contain a Key. Keys allow Flutter to
+          // uniquely identify widgets.
+          key: Key(note.toString()),
+          // Provide a function that tells the app
+          // what to do after an item has been swiped away.
+          onDismissed: (direction) {
+            // Remove the item from the data source.
+            setState(() async {
+              await NotesDatabase.instance.delete(note.id!);
+              //notes.removeAt(index);
+            });
+
+            // Then show a snackbar.
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('$note dismissed')));
+          },
+          //child: ListTile(title: Text('$note')),
+          child: NoteCardWidget(note: note, index: index),
+        );
 
         return GestureDetector(
           onTap: () async {
@@ -109,6 +132,7 @@ class _NotesPageState extends State<NotesPage> {
         },
         child: NoteCardWidget(note: note, index: index),
       );
-    },
-  );
+
+    }
+    );
 }
