@@ -13,7 +13,7 @@ class NotesDatabase {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('notes_db.db');
+    _database = await _initDB('notes_new.db');
     return _database!;
   }
 
@@ -33,6 +33,8 @@ class NotesDatabase {
     await db.execute('''
 CREATE TABLE $tableNotes ( 
   ${NoteFields.id} $idType, 
+  ${NoteFields.hours} $integerType,
+  ${NoteFields.minutes} $integerType,
   ${NoteFields.description} $textType,
   ${NoteFields.time} $textType
   )

@@ -17,15 +17,16 @@ class AddEditNotePage extends StatefulWidget {
 
 class _AddEditNotePageState extends State<AddEditNotePage> {
   final _formKey = GlobalKey<FormState>();
-  late bool isImportant;
-  late int number;
-  late String title;
+  //late bool isImportant;
+  late int hours;
+  late int minutes;
   late String description;
 
   @override
   void initState() {
     super.initState();
-
+    hours = widget.note?.hours ?? 0;
+    minutes = widget.note?.minutes ?? 0;
     description = widget.note?.description ?? '';
   }
 
@@ -37,7 +38,11 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
     body: Form(
       key: _formKey,
       child: NoteFormWidget(
+        hours: hours,
+        minutes: minutes,
         description: description,
+        onChangedHours: (hours) => setState(() => this.hours = hours),
+        onChangedMinutes: (minutes) => setState(() => this.minutes = minutes),
         onChangedDescription: (description) =>
             setState(() => this.description = description),
       ),
@@ -78,6 +83,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
 
   Future updateNote() async {
     final note = widget.note!.copy(
+      hours: hours,
+      minutes: minutes,
       description: description,
     );
 
@@ -86,6 +93,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
 
   Future addNote() async {
     final note = Note(
+      hours: hours,
+      minutes: minutes,
       description: description,
       createdTime: DateTime.now(),
     );
