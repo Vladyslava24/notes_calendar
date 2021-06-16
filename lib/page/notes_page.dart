@@ -43,9 +43,12 @@ class _NotesPageState extends State<NotesPage> {
 
   Future refreshNotes() async {
     setState(() => isLoading = true);
-
-    this.notes = await NotesDatabase.instance.readAllNotes(widget.date);
-
+    final resultList = await NotesDatabase.instance.readAllNotes();
+    final filteredList = resultList.where((element) => element.createdTime.toString().substring(0, 10).
+                                          contains(widget.date.toString().substring(0, 10))).toList();
+    //this.notes = await NotesDatabase.instance.readAllNotes();
+    this.notes = filteredList;
+    //print(resultList.toString());
     setState(() => isLoading = false);
   }
 
@@ -73,7 +76,7 @@ class _NotesPageState extends State<NotesPage> {
       child: Icon(Icons.add),
       onPressed: () async {
         await Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => AddEditNotePage()),
+          MaterialPageRoute(builder: (context) => AddEditNotePage(widget.date)),
         );
 
         refreshNotes();

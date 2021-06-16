@@ -76,27 +76,11 @@ CREATE TABLE $tableNotes (
     }
   }
 
-  Future<List<Note>> readAllNotes(DateTime date) async {
+  Future<List<Note>> readAllNotes() async {
     return _lock.synchronized(() async {
       final db = await instance.database;
-      DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-      //print('${NoteFields.time}');
-      //final noteData = dateFormat.parse('${NoteFields.time}');
-      //final noteData = 'SUBSTR(${NoteFields.time}, 0, 10) = ?';
-      print(DateTime.now());
-      //final noteData = 'SUBSTR(${DateTime.now().toString()}, 0, 10) = ?';
-      print('${NoteFields.time}'.toString());
-      final noteDate = DateTime.now().toString().substring(0, 10);
-      //final noteData = DateTime.parse(DateFormat.yMMMd().format(NoteFields.time);
-      //final format = DateFormat.yMMMd();
-      //final noteData = format.parse(NoteFields.time);
-      final calendarDate = dateFormat.format(date);
-      print(calendarDate.toString());
       final orderBy = '${NoteFields.time} ASC';
-      // final result =
-      //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
-
-      final result = await db.query(tableNotes, where: '$noteDate = $calendarDate', orderBy: orderBy);
+      final result = await db.query(tableNotes, orderBy: orderBy);
 
       return result.map((json) => Note.fromJson(json)).toList();
     });

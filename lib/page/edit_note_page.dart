@@ -6,11 +6,13 @@ import 'package:notes_try/widget/note_form_widget.dart';
 
 class AddEditNotePage extends StatefulWidget {
   final Note? note;
+  final DateTime date;
 
-  const AddEditNotePage({
+  const AddEditNotePage(this.date, {
     Key? key,
     this.note,
   }) : super(key: key);
+
   @override
   _AddEditNotePageState createState() => _AddEditNotePageState();
 }
@@ -96,7 +98,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       hours: hours,
       minutes: minutes,
       description: description,
-      createdTime: DateTime.now(),
+      createdTime: widget.date,
     );
 
     await NotesDatabase.instance.create(note);

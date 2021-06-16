@@ -133,7 +133,7 @@ class _CalendarState extends State<Calendar> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
       await Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => AddEditNotePage()),
+        MaterialPageRoute(builder: (context) => AddEditNotePage(selectedDay)),
         );
           //refreshNotes();
         },
