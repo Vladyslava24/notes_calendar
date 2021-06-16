@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:notes_try/page/notes_page.dart';
+
+import 'page/calendar_page.dart';
 
 
 Future main() async {
@@ -14,7 +15,7 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Notes SQLite';
+  static final String title = 'Notes Calendar SQLite';
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         elevation: 0,
       ),
     ),
-    home: NotesPage(),
+    //home: NotesPage(),
+    home: Calendar(),
   );
 }

@@ -21,9 +21,6 @@ class NoteFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-    //child: Padding(
-      //padding: EdgeInsets.all(16),
-      //child: ListView(
     textDirection: TextDirection.ltr,
     crossAxisAlignment: CrossAxisAlignment.end,
     verticalDirection: VerticalDirection.up,
@@ -45,69 +42,32 @@ class NoteFormWidget extends StatelessWidget {
              // },
             //),
             ),
-        //mainAxisSize: MainAxisSize.min,
-        //children: [
-          //Row(
-            /*children: [
-              Switch(
-                value: isImportant ?? false,
-                onChanged: onChangedImportant,
-              ),
-              Expanded(
-                child: Slider(
-                  value: (number ?? 0).toDouble(),
-                  min: 0,
-                  max: 5,
-                  divisions: 5,
-                  onChanged: (number) => onChangedNumber(number.toInt()),
-                ),
-              )
-            ], */
-          //),
-          //buildTitle(),
-          //SizedBox(height: 8),
-          //buildDescription(),
-          //SizedBox(height: 16),
         ],
       //),
     //),
   );
 
-  /*Widget buildTitle() => TextFormField(
-    maxLines: 1,
-    initialValue: title,
-    style: TextStyle(
-      color: Colors.white70,
-      fontWeight: FontWeight.bold,
-      fontSize: 24,
-    ),
-    decoration: InputDecoration(
-      border: InputBorder.none,
-      hintText: 'Title',
-      hintStyle: TextStyle(color: Colors.white70),
-    ),
-    validator: (title) =>
-    title != null && title.isEmpty ? 'The title cannot be empty' : null,
-    onChanged: onChangedTitle,
-  );*/
-
   showPickerNumberFormatValue(BuildContext context) {
     Picker(
         adapter: NumberPickerAdapter(data: [
           NumberPickerColumn(
-
               begin: 0,
               end: 23,
+              initValue: hours,
               onFormatValue: (v) {
                 return v < 10 ? "0$v" : "$v";
               }
           ),
-          NumberPickerColumn(begin: 0, end: 60,
+          NumberPickerColumn(
+              begin: 0,
+              end: 60,
+              initValue: minutes,
               onFormatValue: (v) {
                 return v < 10 ? "0$v" : "$v";
               }
           ),
-        ]),
+        ]
+        ),
         delimiter: [
           PickerDelimiter(child: Container(
             width: 30.0,
@@ -119,10 +79,17 @@ class NoteFormWidget extends StatelessWidget {
         title: Text("Please Select"),
         selectedTextStyle: TextStyle(color: Colors.blue),
         onConfirm: (Picker picker, List value) {
+          //(hours) => onChangedHours(hours.toInt());
+          //hours: picker.getSelectedValues()[0];
+          //hours: value[0];
+          //setState(() {
+           // minutes = picker.getSelectedValues()[1];
+          //onConfirmDurationPicker(picker, value);
           print(value.toString());
           print(picker.getSelectedValues());
-    Duration _duration = Duration(hours: picker.getSelectedValues()[0], minutes: picker.getSelectedValues()[1]);
         }
+        //value: picker.getSelectedValues()[0];
+
     ).showDialog(context);
   }
 

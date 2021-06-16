@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notes_try/db/note_database.dart';
 import 'package:notes_try/model/note.dart';
 import 'package:notes_try/widget/note_card_widget.dart';
@@ -9,6 +7,11 @@ import 'edit_note_page.dart';
 import 'note_detail_page.dart';
 
 class NotesPage extends StatefulWidget {
+  final DateTime date;
+
+  NotesPage(this.date);
+
+
   @override
   _NotesPageState createState() => _NotesPageState();
 }
@@ -16,25 +19,32 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage> {
   late List<Note> notes;
   bool isLoading = false;
+  late Map<DateTime, List<Note>> selectedNotes;
+
 
   @override
-  void initState() {
+  void initState(){
+    selectedNotes = {};
     super.initState();
 
     refreshNotes();
   }
 
-  @override
+  List<Note> _getEventsfromDay(DateTime date) {
+    return selectedNotes[date] ?? [];
+  }
+
+  /*@override
   void dispose() {
     NotesDatabase.instance.close();
 
     super.dispose();
-  }
+  }*/
 
   Future refreshNotes() async {
     setState(() => isLoading = true);
 
-    this.notes = await NotesDatabase.instance.readAllNotes();
+    this.notes = await NotesDatabase.instance.readAllNotes(widget.date);
 
     setState(() => isLoading = false);
   }
@@ -85,16 +95,18 @@ class _NotesPageState extends State<NotesPage> {
           // Provide a function that tells the app
           // what to do after an item has been swiped away.
           onDismissed: (direction) {
+          if(direction == DismissDirection.endToStart) {
             // Remove the item from the data source.
             setState(() async {
               await NotesDatabase.instance.delete(note.id!);
               //notes.removeAt(index);
             });
-
+          }
             // Then show a snackbar.
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text('$note dismissed')));
           },
+          background: Container(color: Colors.red),
           //child: ListTile(title: Text('$note')),
           child: NoteCardWidget(note: note, index: index),
         );
@@ -110,29 +122,5 @@ class _NotesPageState extends State<NotesPage> {
           child: NoteCardWidget(note: note, index: index),
         );
       },
-      );
-
-  Widget buildNotes() => StaggeredGridView.countBuilder(
-    padding: EdgeInsets.all(8),
-    itemCount: notes.length,
-    staggeredTileBuilder: (index) => StaggeredTile.fit(2),
-    crossAxisCount: 4,
-    mainAxisSpacing: 4,
-    crossAxisSpacing: 4,
-    itemBuilder: (context, index) {
-      final note = notes[index];
-
-      return GestureDetector(
-        onTap: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => NoteDetailPage(noteId: note.id!),
-          ));
-
-          refreshNotes();
-        },
-        child: NoteCardWidget(note: note, index: index),
-      );
-
-    }
     );
 }
