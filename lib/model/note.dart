@@ -15,8 +15,8 @@ class NoteFields {
 
 class Note {
   final int? id;
-  final int hours;
-  final int minutes;
+  final String hours;
+  final String minutes;
   final String description;
   final DateTime createdTime;
 
@@ -30,8 +30,8 @@ class Note {
 
   Note copy({
     int? id,
-    int? hours,
-    int? minutes,
+    String? hours,
+    String? minutes,
     String? description,
     DateTime? createdTime,
   }) =>
@@ -45,8 +45,8 @@ class Note {
 
   static Note fromJson(Map<String, Object?> json) => Note(
     id: json[NoteFields.id] as int?,
-    hours: json[NoteFields.hours] as int,
-    minutes: json[NoteFields.minutes] as int,
+    hours: json[NoteFields.hours] as String,
+    minutes: json[NoteFields.minutes] as String,
     description: json[NoteFields.description] as String,
     createdTime: DateTime.parse(json[NoteFields.time] as String),
   );

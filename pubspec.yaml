@@ -36,6 +36,8 @@ dependencies:
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
 
+  numberpicker: ^2.0.1
+
   table_calendar: ^3.0.0
 
   # The following adds the Cupertino Icons font to your application.

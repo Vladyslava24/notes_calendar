@@ -19,7 +19,7 @@ class _CalendarState extends State<Calendar> {
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
 
-  TextEditingController _eventController = TextEditingController();
+  //TextEditingController _eventController = TextEditingController();
 
   @override
   void initState() {
@@ -27,22 +27,6 @@ class _CalendarState extends State<Calendar> {
     super.initState();
     //refreshNotes();
   }
-
-  /*@override
-  void dispose() {
-    NotesDatabase.instance.close();
-
-    super.dispose();
-  }*/
-
-  /*Future refreshNotes() async {
-    setState(() => isLoading = true);
-
-    this.notes = await NotesDatabase.instance.readAllNotes();
-
-    setState(() => isLoading = false);
-  }
-*/
 
   List<Note> _getEventsfromDay(DateTime date) {
     return selectedEvents[date] ?? [];
@@ -58,7 +42,7 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ESTech Calendar"),
+        title: Text("Notes Calendar SQLite"),
         centerTitle: true,
       ),
       body: Column(
@@ -89,7 +73,6 @@ class _CalendarState extends State<Calendar> {
             selectedDayPredicate: (DateTime date) {
               return isSameDay(selectedDay, date);
             },
-
            //eventLoader: _getEventsfromDay,
 
             //To style the Calendar

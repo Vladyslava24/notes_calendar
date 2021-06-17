@@ -3,7 +3,6 @@ import 'package:notes_try/db/note_database.dart';
 import 'package:notes_try/model/note.dart';
 import 'package:notes_try/widget/note_form_widget.dart';
 
-
 class AddEditNotePage extends StatefulWidget {
   final Note? note;
   final DateTime date;
@@ -20,15 +19,15 @@ class AddEditNotePage extends StatefulWidget {
 class _AddEditNotePageState extends State<AddEditNotePage> {
   final _formKey = GlobalKey<FormState>();
   //late bool isImportant;
-  late int hours;
-  late int minutes;
+  late String hours;
+  late String minutes;
   late String description;
 
   @override
   void initState() {
     super.initState();
-    hours = widget.note?.hours ?? 0;
-    minutes = widget.note?.minutes ?? 0;
+    hours = widget.note?.hours ?? '';
+    minutes = widget.note?.minutes ?? '';
     description = widget.note?.description ?? '';
   }
 

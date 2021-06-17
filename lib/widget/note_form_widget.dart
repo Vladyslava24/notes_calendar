@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/Picker.dart';
 
 class NoteFormWidget extends StatelessWidget {
-  final int? hours;
-  final int? minutes;
+  final String? hours;
+  final String? minutes;
   final String? description;
-  final ValueChanged<int> onChangedHours;
-  final ValueChanged<int> onChangedMinutes;
+  final ValueChanged<String> onChangedHours;
+  final ValueChanged<String> onChangedMinutes;
   final ValueChanged<String> onChangedDescription;
 
   const NoteFormWidget({
     Key? key,
-    this.hours = 0,
-    this.minutes = 0,
+    this.hours = '',
+    this.minutes = '',
     this.description = '',
     required this.onChangedHours,
     required this.onChangedMinutes,
@@ -26,72 +25,58 @@ class NoteFormWidget extends StatelessWidget {
     verticalDirection: VerticalDirection.up,
     mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-            child: ListTile(
-                title: Text('00.00'),
-            onTap: () {
-              showPickerNumberFormatValue(context);
-            },
-          ),
-          ),
-            Expanded(child:
-            //TextFormField(
-              //title: Text('Add new note'),
-              //onTap: () {
-                buildDescription(),
-             // },
-            //),
+            SizedBox(width: 20),
+            Flexible(
+              child: Container(
+                width: 30,
+                child: buildHours()
+              ),
+            ),
+            Flexible (
+              child: Container(
+                child: buildMinutes()
+                ),
+            ),
+            Flexible (
+              flex: 4,
+              child: Container(
+                width: 350,
+                child: buildDescription()),
             ),
         ],
       //),
     //),
   );
 
-  showPickerNumberFormatValue(BuildContext context) {
-    Picker(
-        adapter: NumberPickerAdapter(data: [
-          NumberPickerColumn(
-              begin: 0,
-              end: 23,
-              initValue: hours,
-              onFormatValue: (v) {
-                return v < 10 ? "0$v" : "$v";
-              }
-          ),
-          NumberPickerColumn(
-              begin: 0,
-              end: 60,
-              initValue: minutes,
-              onFormatValue: (v) {
-                return v < 10 ? "0$v" : "$v";
-              }
-          ),
-        ]
-        ),
-        delimiter: [
-          PickerDelimiter(child: Container(
-            width: 30.0,
-            alignment: Alignment.center,
-            child: Icon(Icons.more_vert),
-          ))
-        ],
-        hideHeader: true,
-        title: Text("Please Select"),
-        selectedTextStyle: TextStyle(color: Colors.blue),
-        onConfirm: (Picker picker, List value) {
-          //(hours) => onChangedHours(hours.toInt());
-          //hours: picker.getSelectedValues()[0];
-          //hours: value[0];
-          //setState(() {
-           // minutes = picker.getSelectedValues()[1];
-          //onConfirmDurationPicker(picker, value);
-          print(value.toString());
-          print(picker.getSelectedValues());
-        }
-        //value: picker.getSelectedValues()[0];
+  Widget buildHours() => TextFormField(
+    maxLines: 1,
+    initialValue: hours,
+    style: TextStyle(color: Colors.white60, fontSize: 18),
+    decoration: InputDecoration(
+      border: InputBorder.none,
+      hintText: '00',
+      hintStyle: TextStyle(color: Colors.white60),
+    ),
+    validator: (title) => title != null && title.isEmpty
+        ? 'The hours cannot be empty'
+        : null,
+    onChanged: onChangedHours,
+  );
 
-    ).showDialog(context);
-  }
+  Widget buildMinutes() => TextFormField(
+    maxLines: 1,
+    initialValue: minutes,
+    style: TextStyle(color: Colors.white60, fontSize: 18),
+    decoration: InputDecoration(
+      border: InputBorder.none,
+      hintText: '00',
+      hintStyle: TextStyle(color: Colors.white60),
+    ),
+    validator: (title) => title != null && title.isEmpty
+        ? 'The minutes cannot be empty'
+        : null,
+    onChanged: onChangedMinutes,
+  );
 
   Widget buildDescription() => TextFormField(
     maxLines: 5,
@@ -108,3 +93,6 @@ class NoteFormWidget extends StatelessWidget {
     onChanged: onChangedDescription,
   );
 }
+
+
+

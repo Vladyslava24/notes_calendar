@@ -19,28 +19,14 @@ class NoteCardWidget extends StatelessWidget {
     final time = DateFormat.yMMMd().format(note.createdTime);
 
     return ListTile(
-      /*subtitle: Text(
-        note.hours.toString() + '.' + note.minutes.toString(),
-        style: _biggerFont,
-      ),*/
       title: Text(
-        note.hours.toString() + '.' + note.minutes.toString() + '   ' + note.description,
+        note.hours + '.' + note.minutes + '   ' + note.description,
         style: _biggerFont,
       ),
       trailing: Text(
         time,
         style: TextStyle(color: Colors.grey.shade700),
       ),
-      /*onTap: () {
-        // NEW lines from here...
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },*/               // ... to here.
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notes_try/db/note_database.dart';
 import 'package:notes_try/model/note.dart';
 import 'package:notes_try/widget/note_card_widget.dart';
@@ -26,7 +27,6 @@ class _NotesPageState extends State<NotesPage> {
   void initState(){
     selectedNotes = {};
     super.initState();
-
     refreshNotes();
   }
 
@@ -46,9 +46,7 @@ class _NotesPageState extends State<NotesPage> {
     final resultList = await NotesDatabase.instance.readAllNotes();
     final filteredList = resultList.where((element) => element.createdTime.toString().substring(0, 10).
                                           contains(widget.date.toString().substring(0, 10))).toList();
-    //this.notes = await NotesDatabase.instance.readAllNotes();
     this.notes = filteredList;
-    //print(resultList.toString());
     setState(() => isLoading = false);
   }
 
@@ -56,7 +54,7 @@ class _NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text(
-        'Notes',
+          (DateFormat.yMMMd().format(widget.date)).toString(),
         style: TextStyle(fontSize: 24),
       ),
       actions: [Icon(Icons.search), SizedBox(width: 12)],
@@ -126,4 +124,5 @@ class _NotesPageState extends State<NotesPage> {
         );
       },
     );
+
 }
